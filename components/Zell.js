@@ -4,7 +4,7 @@ import {View, Text, TouchableHighlight, StyleSheet} from 'react-native';
 export default class Zell extends Component {
   constructor(){
     super();
-    this.state = {active: true, char: ''};
+    this.state = {char: ''};
     this.handleClick = this.handleClick.bind(this);
   }
   componentWillReceiveProps(nextProps) {
@@ -13,8 +13,7 @@ export default class Zell extends Component {
     }
   }
   handleClick(){
-   if (this.state.active) {
-     this.setState({active: false})
+   if (this.props.active) {
      this.props.checkGameStatus(this.props.index);
    }
   }

@@ -11,15 +11,15 @@ export default class Main extends Component {
     this.onCheckGameStatus = this.onCheckGameStatus.bind(this);
     this.getAllWinComb = this.getAllWinComb.bind(this);
     let allzells = [
-                    {index: 0, val:''},
-                    {index: 1, val:''},
-                    {index: 2, val:''},
-                    {index: 3, val:''},
-                    {index: 4, val:''},
-                    {index: 5, val:''},
-                    {index: 6, val:''},
-                    {index: 7, val:''},
-                    {index: 8, val:''}
+                    {index: 0, val:'', active: true},
+                    {index: 1, val:'', active: true},
+                    {index: 2, val:'', active: true},
+                    {index: 3, val:'', active: true},
+                    {index: 4, val:'', active: true},
+                    {index: 5, val:'', active: true},
+                    {index: 6, val:'', active: true},
+                    {index: 7, val:'', active: true},
+                    {index: 8, val:'', active: true}
                   ]
     this.state = {player:[], bot:[], allZells:allzells}
   }
@@ -67,10 +67,11 @@ export default class Main extends Component {
   botPlays (playedZell) {
     playedZells.push(playedZell);
     let data = this.state.allZells.filter((item) => playedZells.indexOf(item.index) === -1);
-    let randomIndex = Math.floor(Math.random()*(data.length+1));
+    let randomIndex = Math.floor(Math.random()*data.length);
     data[randomIndex].val = 'O';
+    data[randomIndex].active = false;
     let newZells = this.state.allZells;
-    newZells.find((i) => i.index === data)
+    // newZells.find((i) => i.index === data)
     // newZells[randomIndex].val='O';
     // let freeBotZell = data.find((zell) => zell.index === randomIndex).val='O';
     this.setState({allZells:newZells});
@@ -81,6 +82,7 @@ export default class Main extends Component {
     data.push(index);
     let allZellsData = this.state.allZells;
     allZellsData[index].val='X';
+    allZellsData[index].active=false;
     this.setState({player: data, allZells: allZellsData});
     // this.botZells.push(index);   
     if(this.state.player.length >= 3) {
@@ -89,24 +91,29 @@ export default class Main extends Component {
       // check if one of them is in allwinningComb
       if (allComb.some( (item) => { return this.getAllWinComb(winningCombinations).indexOf(item.join('')) !== -1; })) {
           // player wins
-          alert('Player wins'); 
+          alert('Player wins');
+          playedZells = [];
+          this.setState({player:[], bot:[], allZells:[
+            {index: 0, val:'', active: true},
+            {index: 1, val:'', active: true},
+            {index: 2, val:'', active: true},
+            {index: 3, val:'', active: true},
+            {index: 4, val:'', active: true},
+            {index: 5, val:'', active: true},
+            {index: 6, val:'', active: true},
+            {index: 7, val:'', active: true},
+            {index: 8, val:'', active: true}
+          ]});
       } else {
         this.botPlays(index);
       }
-      // otherwise lets bot plays  
-        // get Free zells
-        // this.state.player
-
-      
-      // check if bot wins
-
     } else this.botPlays(index)
   }
   render() {
     return (
         <View style={styles.container}>
           {this.state.allZells.map((zell,i) => 
-            <Zell key={zell.index} index={zell.index} value={zell.val} checkGameStatus={this.onCheckGameStatus}/>
+            <Zell key={zell.index} index={zell.index} value={zell.val} active={zell.active} checkGameStatus={this.onCheckGameStatus}/>
           )}
         </View>
     );
