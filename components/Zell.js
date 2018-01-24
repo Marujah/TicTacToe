@@ -14,15 +14,15 @@ export default class Zell extends Component {
   }
   handleClick(){
    if (this.state.active) {
-     this.setState({active: false, char: 'X'})
-     this.props.botplays(this.props.index);
+     this.setState({active: false})
+     this.props.checkGameStatus(this.props.index);
    }
   }
   render() {
     return(
       <View>
         <TouchableHighlight  onPress={this.handleClick} style={styles.zell}>
-        <Text style={{fontSize: 40}}>{this.state.char}</Text></TouchableHighlight>
+        <Text style={{fontSize: 40}}>{this.props.value}</Text></TouchableHighlight>
       </View>
     );
   }  
