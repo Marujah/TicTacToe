@@ -13,7 +13,7 @@ export default class App extends Component {
     return (
       <View style={styles.container}>
         <View style={{paddingTop: 150}}>
-          <Main allZells={[..."123456789"]} />
+          <Main allZells={[..."123456789"]} winningCombinations={['012', '036', '048','345','678','147','258','246']}/>
         </View>
       </View>
     );
